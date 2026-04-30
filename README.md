@@ -1,34 +1,173 @@
-# Career Memory Agent MVP
+# Career Memory Agent
 
-Local-first, chat-first career agent with memory and structured opportunity analysis as enhancement layers, built with Next.js, TypeScript, Tailwind CSS, SQLite, Prisma, and a provider-based LLM interface.
+A local-first, memory-safe, evidence-grounded career agent system with provider abstraction, structured agent traces, and case-driven evaluation.
 
-## Xiaomi MiMo Integration Plan
+[![Next.js](https://img.shields.io/badge/Next.js-14-black)]()
+[![TypeScript](https://img.shields.io/badge/TypeScript-5-blue)]()
+[![Prisma](https://img.shields.io/badge/Prisma-ORM-2D3748)]()
+[![SQLite](https://img.shields.io/badge/SQLite-local--first-003B57)]()
+[![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)]()
 
-This project is applying for the Xiaomi MiMo Orbit Creator Token Program.
+Career Memory Agent is an experimental AI agent for managing career opportunities, job descriptions, interview preparation, and long-term career memory.
 
-Career Memory Agent plans to integrate Xiaomi MiMo API as a core reasoning provider for:
+This is not a chatbot shell. It treats the career process as a long-running agent workflow:
 
-- Chinese long-context career conversations
-- JD structured extraction
-- Opportunity assessment
-- Interview preparation
-- Long-term memory summarization
-- Agent router classification
-- Structured JSON generation
-- Evaluation and benchmark comparison
+- conversations generate memory suggestions, not silent memory writes;
+- job descriptions become structured opportunities;
+- raw evidence is tracked separately from generated conclusions;
+- every meaningful agent action is traceable;
+- behavior is evaluated with repeatable, case-driven tests.
 
-MiMo will be compared with existing providers such as Mock, DeepSeek, and OpenAI-compatible models. The goal is to evaluate MiMo's performance in a real-world Chinese Agent workflow, especially for chat-first user interaction, memory safety, opportunity analysis, and structured action planning.
+## Why This Project
 
-## Features
+Career development is a long-running, context-heavy decision process.
 
-- Home Dashboard: stats, Pending Review Summary, recent conversations, recent runs, recent opportunities, provider/safety cards, and a Quick Start input that starts Chat execution in one click.
-- ChatGPT-like Career Agent: `/chat` and `/chat/[threadId]` provide natural multi-turn conversations first, then optional memory suggestions, info gaps, structured cards, Agent Summary, pending actions, and citations.
-- Memories: board/table views, search/filter, create/edit/archive/delete, Evidence ID binding, version history, rollback.
-- Evidence: local evidence library for JD/recruiter/HR/interview/resume/project notes, editable original text, `Analyze with Agent`.
-- Opportunities: generated opportunity profile, latest assessment, risks, open questions, decisions, and Opportunity-Memory Match View.
-- Agent Runs: full router/workflow trace with all steps, generated artifacts, chat source links, and pending MemorySuggestions.
-- MemorySuggestions: Agent never writes long-term memory automatically; users must Save, Edit & Save, or Ignore suggestions.
-- LLM providers: `MockLLMProvider` is default and offline; `OpenAIProvider` is reserved server-side and falls back safely when `OPENAI_API_KEY` is absent.
+A user may discuss resume positioning, job descriptions, recruiter messages, interview feedback, offer trade-offs, compensation expectations, and long-term goals across many conversations. Generic chatbots often lose this context, while traditional job trackers require too much manual structure.
+
+Career Memory Agent explores a different approach:
+
+- use chat as the primary interaction interface;
+- convert conversations into structured career memory;
+- keep raw evidence separate from generated conclusions;
+- track opportunities as evolving objects;
+- evaluate agent behavior with repeatable test cases.
+
+The long-term goal is to build a personal career operating system powered by memory, evidence, and agent workflows.
+
+## System Overview
+
+Career Memory Agent is designed around five core layers:
+
+1. **Chat Interface**  
+   A ChatGPT-like interaction layer for natural career conversations.
+
+2. **Memory Layer**  
+   Extracts durable user facts, preferences, goals, and project history as memory suggestions. Long-term memory is only saved after explicit user confirmation.
+
+3. **Evidence Layer**  
+   Stores raw job descriptions, interview notes, resume fragments, project descriptions, and user-provided context.
+
+4. **Opportunity Layer**  
+   Converts high-quality evidence into structured career opportunities with status, company, role, stage, fit analysis, risks, and next actions.
+
+5. **Agent Run & Evaluation Layer**  
+   Records agent runs, provider metadata, intermediate artifacts, and evaluation results for debugging and continuous improvement.
+
+## Architecture
+
+```mermaid
+flowchart TD
+    U[User Chat] --> C[Chat Interface]
+
+    C --> R[Agent Router]
+    R -->|ordinary chat| A[Answer Generator]
+    R -->|memory-worthy| M[Memory Suggestion Engine]
+    R -->|JD / opportunity| O[Opportunity Extractor]
+    R -->|interview prep| P[Interview Prep Planner]
+
+    M --> MS[Memory Suggestions]
+    MS -->|Save / Edit / Ignore| LM[(Long-term Memory DB)]
+
+    O --> E[(Evidence Store)]
+    O --> OP[(Opportunity Store)]
+
+    A --> T[Agent Run Trace]
+    M --> T
+    O --> T
+    P --> T
+
+    T --> EV[Evaluation Harness]
+
+    LLM[LLM Provider Boundary] --> R
+    LLM --> A
+    LLM --> M
+    LLM --> O
+    LLM --> P
+
+    MP[Mock Provider] --> LLM
+    DP[DeepSeek Provider] --> LLM
+    OAI[OpenAI-compatible Provider] --> LLM
+    MIMO[MiMo Provider Planned] --> LLM
+```
+
+## Core Capabilities
+
+### 1. Chat-first Career Agent
+
+The primary interface is a natural conversation, not a form-based CRM.
+
+Users can paste job descriptions, discuss interview feedback, compare opportunities, or refine project narratives directly in chat. Structured analysis, memory extraction, info gaps, citations, and audit traces appear as enhancement layers when relevant.
+
+### 2. User-confirmed Long-term Memory
+
+The system distinguishes between temporary conversation context and durable long-term memory.
+
+Memory writes follow a safe workflow:
+
+```mermaid
+sequenceDiagram
+    participant User
+    participant Agent
+    participant MemoryEngine
+    participant DB
+
+    User->>Agent: "I prefer platform-level Agent roles"
+    Agent->>MemoryEngine: Extract memory candidate
+    MemoryEngine-->>Agent: MemorySuggestion
+    Agent-->>User: Suggest saving this preference
+    User->>Agent: Save / Edit / Ignore
+    Agent->>DB: Persist only after confirmation
+```
+
+This avoids one of the most common failures in memory agents: silently saving noisy, sensitive, or temporary information.
+
+### 3. Evidence-grounded Opportunity Analysis
+
+Job descriptions, interview notes, recruiter messages, resume fragments, and user context are stored as evidence before being converted into structured opportunity records.
+
+This makes opportunity analysis auditable and prevents the agent from mixing raw facts with generated conclusions.
+
+### 4. Structured Agent Run Trace
+
+Each meaningful agent action can be recorded as an `AgentRun`, including:
+
+- provider and model metadata;
+- input category;
+- generated artifacts;
+- memory suggestions;
+- opportunity extraction results;
+- evaluation signals;
+- failure types.
+
+### 5. Case-driven Evaluation Harness
+
+The project includes an evaluation harness for testing career-agent behavior across realistic cases, including weak JD input, complete JD input, explicit memory updates, temporary thoughts, opportunity comparison, interview preparation, follow-up resolution, project rewriting, and interview review.
+
+## Design Principles
+
+### Chat-first, not form-first
+
+Career workflows are messy. Users rarely start with clean structured data. The system accepts natural conversation as the primary input and progressively extracts structure from it.
+
+### Memory-safe by default
+
+Long-term memory is powerful but risky. The agent should propose memory updates, not silently mutate the user profile.
+
+### Evidence before conclusion
+
+The agent separates raw evidence from generated analysis. This makes opportunity evaluation more transparent and easier to debug.
+
+### Local-first MVP
+
+The current implementation uses SQLite and Prisma to keep the MVP easy to run, inspect, and modify locally.
+
+### Provider-agnostic LLM boundary
+
+The system is designed to compare multiple LLM providers under the same workflow, including Mock, DeepSeek, OpenAI-compatible models, and Xiaomi MiMo.
+
+### Evaluation is part of the product
+
+Agent behavior is not judged only by subjective demos. The repository includes case-driven evaluation with hard assertions, soft scoring, failure taxonomy, and planned provider comparison.
 
 ## Screenshots
 
@@ -48,6 +187,118 @@ MiMo will be compared with existing providers such as Mock, DeepSeek, and OpenAI
 
 ![Agent Run Trace](docs/assets/agent-run-trace.png)
 
+## LLM Provider Boundary
+
+The project uses a provider-based LLM interface so that different models can be tested under the same agent workflow.
+
+Current and planned providers:
+
+| Provider | Status | Usage |
+|---|---|---|
+| Mock Provider | Implemented | Local deterministic development and UI testing |
+| DeepSeek Provider | Implemented / WIP | Real-model evaluation and semantic routing |
+| OpenAI-compatible Provider | Planned | General compatibility layer |
+| Xiaomi MiMo Provider | Planned | Chinese career-agent workflow evaluation |
+
+Provider metadata is recorded in agent runs to support later comparison across models.
+
+## Xiaomi MiMo Integration Plan
+
+Career Memory Agent plans to integrate Xiaomi MiMo as a first-class LLM provider through the existing provider boundary.
+
+MiMo will be evaluated on Chinese-first career-agent workflows, including:
+
+- long-context career conversation;
+- JD structured extraction;
+- opportunity fit analysis;
+- interview preparation;
+- memory suggestion generation;
+- semantic router classification;
+- structured JSON generation;
+- follow-up resolution;
+- provider comparison under the same evaluation cases.
+
+Planned implementation:
+
+```text
+lib/llm/providers/mimo-provider.ts
+```
+
+Planned environment variables:
+
+```bash
+MIMO_API_KEY=""
+MIMO_BASE_URL=""
+MIMO_DEFAULT_MODEL=""
+```
+
+The goal is to evaluate MiMo in a real-world agent workflow rather than isolated single-turn prompts.
+
+## Evaluation Design
+
+Career Memory Agent includes an evaluation harness for testing whether the agent behaves correctly in realistic career workflows.
+
+### Evaluation Case Types
+
+| Case Type | What it tests |
+|---|---|
+| Ordinary chat | Should answer normally without over-triggering workflows |
+| Weak JD input | Should ask for missing information instead of creating bad opportunities |
+| Complete JD input | Should extract structured opportunity draft |
+| Explicit memory update | Should generate memory suggestion |
+| Temporary thought | Should avoid long-term memory write |
+| Opportunity comparison | Should compare roles using user preferences and evidence |
+| Interview preparation | Should generate role-specific prep plan |
+| Follow-up resolution | Should handle references like "除此之外呢" |
+| Project rewriting | Should rewrite project stories for a target role |
+| Interview review | Should summarize feedback and next actions |
+
+### Metrics
+
+| Metric | Description |
+|---|---|
+| Hard assertion pass rate | Whether required behaviors happen |
+| JSON validity | Whether structured outputs are parseable |
+| Memory safety violation rate | Whether temporary/noisy content is incorrectly saved |
+| Opportunity precision | Whether opportunities are created only when evidence is sufficient |
+| Follow-up resolution quality | Whether contextual references are correctly resolved |
+| Answer relevance | Whether the response directly addresses the user goal |
+| Trace completeness | Whether agent actions are inspectable |
+| Latency / cost | Provider-level runtime characteristics |
+
+### Failure Taxonomy
+
+- over-creating opportunities from weak input;
+- silently writing long-term memory;
+- losing user preference context;
+- hallucinating job requirements;
+- producing invalid structured JSON;
+- failing to distinguish evidence from conclusion;
+- generic interview advice without role grounding.
+
+### Eval Harness Details
+
+The primary evaluation path uses DeepSeek Flash because it is the default real model target for this demo: fast enough for iteration, cheaper than Pro, and close to the production chat behavior the UI is meant to exercise. DeepSeek Pro remains a manual debugging option only; it is not used by the default eval loop. Mock is kept as a smoke/regression path and offline fallback, not as the quality optimization target.
+
+Run the default real-model eval:
+
+```bash
+npm run eval:career-agent
+```
+
+Useful commands:
+
+```bash
+npm run eval:career-agent -- --provider=deepseek-flash
+npm run eval:career-agent -- --provider=mock-smoke
+npm run eval:career-agent -- --case=weak_jd_should_not_create_objects
+npm run eval:career-agent -- --maxCases=3
+```
+
+Cases live in `evals/career-agent/cases/` as JSON files with ordered chat `turns`, hard `expectations`, and optional `perTurn` expectations for multi-turn cases. Hard assertions check provider/model, object creation, Memory safety, direct Memory writes, MemorySuggestion type safety, follow-up limits, answer text constraints, AgentRun linkage, and AgentStep trace presence. Soft scoring is rule-based across answer relevance, naturalness, helpfulness, info-gap handling, memory safety, object correctness, structured enhancement, over-automation, and trace completeness.
+
+Eval DB isolation: each run copies `prisma/dev.db` into `evals/career-agent/history/eval-*.db` and points Prisma at that copy. This keeps case execution from polluting the working app database while preserving enough seeded context to test realistic behavior.
+
 ## Quick Start
 
 ```bash
@@ -59,27 +310,30 @@ npm run dev
 
 Open `http://localhost:3000`.
 
-The app uses SQLite at `prisma/dev.db`. Copy `.env.example` to `.env` if needed:
+The app uses SQLite at `prisma/dev.db`. Copy `.env.example` to `.env` if needed.
+
+No API key is required for the MVP. With no `OPENAI_API_KEY`, the app uses the deterministic local `MockLLMProvider`.
+
+## Environment Variables
 
 ```bash
 DATABASE_URL="file:./dev.db"
 OPENAI_API_KEY=""
 OPENAI_MODEL="gpt-4.1-mini"
-```
 
-### Xiaomi MiMo
+DEEPSEEK_API_KEY=""
+DEEPSEEK_BASE_URL="https://api.deepseek.com"
+DEEPSEEK_DEFAULT_MODEL="deepseek-v4-flash"
+DEEPSEEK_REASONING_MODEL="deepseek-v4-pro"
+DEEPSEEK_THINKING="disabled"
+DEEPSEEK_REASONING_EFFORT="high"
 
-```bash
 MIMO_API_KEY=""
 MIMO_BASE_URL=""
 MIMO_DEFAULT_MODEL=""
 ```
 
-MiMo support is planned through the existing provider interface. The same AgentRun trace, JSON validation, memory safety, and evaluation harness will be reused for MiMo.
-
-No API key is required for the MVP. With no `OPENAI_API_KEY`, the app uses the deterministic local `MockLLMProvider`.
-
-## Verification Script
+## Verification
 
 Run the local mock workflow without opening the UI:
 
@@ -89,88 +343,12 @@ npm run workflow:mock
 
 This analyzes the seeded JD, creates or updates an Opportunity, persists all AgentStep traces, and generates bounded Assessment/Risk/OpenQuestion/Decision records. Pending MemorySuggestions are created only when the source includes explicit durable-memory signals.
 
-Run type checks:
+Run type checks and production build:
 
 ```bash
 npm run typecheck
+npm run build
 ```
-
-## Career Agent Evals
-
-The primary evaluation path uses DeepSeek Flash because it is the default real model target for this demo: fast enough for iteration, cheaper than Pro, and close to the production chat behavior the UI is meant to exercise. DeepSeek Pro remains a manual debugging option only; it is not used by the default eval loop. Mock is kept as a smoke/regression path and offline fallback, not as the quality optimization target.
-
-Run the default real-model eval:
-
-```bash
-npm run eval:career-agent
-```
-
-Default eval config:
-
-```json
-{
-  "provider": "deepseek",
-  "model": "deepseek-v4-flash",
-  "thinking": "disabled",
-  "reasoningEffort": "none",
-  "temperature": 0.2,
-  "maxTokens": 2000,
-  "timeoutMs": 60000,
-  "stream": false
-}
-```
-
-If `DEEPSEEK_API_KEY` is missing, the DeepSeek eval skips gracefully, writes a skipped report, and does not fall back to Mock. This prevents accidentally treating local deterministic output as the real-model score.
-
-Useful commands:
-
-```bash
-npm run eval:career-agent -- --provider=deepseek-flash
-npm run eval:career-agent -- --provider=mock-smoke
-npm run eval:career-agent -- --case=weak_jd_should_not_create_objects
-npm run eval:career-agent -- --maxCases=3
-```
-
-Cases live in `evals/career-agent/cases/` as JSON files with:
-
-- `id`, `title`, and `provider`
-- ordered chat `turns`
-- hard `expectations`, such as expected `actionLevel`, expected `evidenceSufficiency`, object creation booleans, max MemorySuggestions, max risks/open questions/pending actions, `mustMention`, `mustMentionAny`, and `mustNotMention`
-- optional `perTurn` expectations for multi-turn cases
-
-The harness currently includes the main DeepSeek Flash cases: ordinary chat, weak JD, complete JD, explicit memory update, temporary thought, opportunity comparison, interview prep, external JD request, multi-turn evidence completion, Markdown/trace, follow-up context, resume/project rewriting, and interview review. Follow-up cases cover `除此之外呢`, priority sorting, entity pronouns like `它`, directional constraints like education, and next-action follow-ups after a weak JD.
-
-Hard assertions check provider/model, object creation, Memory safety, direct Memory writes, MemorySuggestion type safety, follow-up limits, answer text constraints, AgentRun linkage, and AgentStep trace presence. Soft scoring is rule-based across answer relevance, naturalness, helpfulness, info-gap handling, memory safety, object correctness, structured enhancement, over-automation, and trace completeness. If an LLM judge is added later, it should use DeepSeek Flash and must not override hard assertions.
-
-Failure taxonomy:
-
-- `ERROR_OVER_AUTOMATION`
-- `ERROR_MEMORY_POLLUTION`
-- `ERROR_INSUFFICIENT_CLARIFICATION`
-- `ERROR_TOO_MANY_FOLLOWUPS`
-- `ERROR_RIGID_TEMPLATE`
-- `ERROR_MISSING_ANSWER`
-- `ERROR_CONTEXT_MISMATCH`
-- `ERROR_MARKDOWN_RENDERING`
-- `ERROR_AGENT_STATUS`
-- `ERROR_TRACE_MISSING`
-- `ERROR_PROVIDER_MISMATCH`
-
-The intended optimization loop is small and case-driven: run DeepSeek Flash evals, read `evals/career-agent/report.md` and `report.json`, identify the top 1-3 failure clusters, patch prompts/router gates/post-processing only, rerun, and compare with history. Allowed fixes are limited to DeepSeek Flash prompts, classification/action-level gates, evidence sufficiency, MemorySuggestion triggers, follow-up caps, answer composition, Agent Summary skipped reasons, JSON validation, dedupe/post-processing, and the eval harness itself. Do not tune Mock output quality or make DeepSeek Pro part of the default loop.
-
-Stop conditions:
-
-- critical hard assertions pass for Memory safety, no direct Memory write, ordinary chat no objects, weak JD no Opportunity, full JD can create objects, AgentRun trace exists, and provider is `deepseek-v4-flash`
-- overall hard assertion pass rate is at least 95%
-- average soft score is at least 4.2 / 5
-- Mock smoke and typecheck pass
-- max 3 automatic optimization rounds
-- diminishing returns after two rounds
-- latency warning when average latency exceeds 15s or p95 exceeds 30s
-
-Latency and cost controls: evals run serially by default, each turn has a 60s timeout, API failures retry at most once, timeouts are not retried, token usage is recorded when the provider returns it, and reports include average latency, p95 latency, and timeout count.
-
-Eval DB isolation: each run copies `prisma/dev.db` into `evals/career-agent/history/eval-*.db` and points Prisma at that copy. This keeps case execution from polluting the working app database while preserving enough seeded context to test realistic behavior.
 
 ## Home Dashboard And Chat
 
@@ -392,6 +570,58 @@ scripts/
 
 ## Data Model
 
+The MVP uses Prisma + SQLite with the following conceptual entities:
+
+```mermaid
+erDiagram
+    UserProfile ||--o{ Memory : owns
+    UserProfile ||--o{ Evidence : provides
+    UserProfile ||--o{ Opportunity : tracks
+    Conversation ||--o{ Message : contains
+    Conversation ||--o{ AgentRun : produces
+    AgentRun ||--o{ AgentStep : records
+    AgentRun ||--o{ MemorySuggestion : generates
+    Evidence ||--o{ Opportunity : supports
+    Opportunity ||--o{ Assessment : has
+    Opportunity ||--o{ Risk : has
+    Opportunity ||--o{ OpenQuestion : has
+    Opportunity ||--o{ Decision : has
+
+    Memory {
+        string type
+        string title
+        string content
+        string tags
+        boolean userVerified
+        datetime createdAt
+        datetime updatedAt
+    }
+
+    Evidence {
+        string type
+        string title
+        string content
+        string source
+        datetime createdAt
+    }
+
+    Opportunity {
+        string company
+        string roleTitle
+        string status
+        string salaryRange
+        string directionTags
+    }
+
+    AgentRun {
+        string provider
+        string model
+        string workflowType
+        string triggerType
+        string status
+    }
+```
+
 Core persisted entities:
 
 - `Memory` and `MemoryVersion`
@@ -472,7 +702,7 @@ The workflow persists or updates:
 
 For `update_memory`, the router only creates a pending `MemorySuggestion`. For `analyze_evidence`, the workflow may create/reuse Evidence, Opportunity, Assessment, Risk, OpenQuestion, Decision, and MemorySuggestion records. For `needs_external_source`, no structured objects are created.
 
-## LLM Provider Boundary
+## DeepSeek Provider Implementation Notes
 
 The product keeps `MockLLMProvider` as the deterministic local validation path and can optionally use DeepSeek through the provider selector:
 
@@ -480,19 +710,6 @@ The product keeps `MockLLMProvider` as the deterministic local validation path a
 - Mock output keeps smoke/regression cases stable for local development, but it is not the main quality optimization target.
 - DeepSeek uses the OpenAI-compatible API through the official `openai` npm package.
 - DeepSeek Flash is the default semantic router and eval model. DeepSeek Pro remains a manual debugging option and is not used by default evals.
-
-### Planned Xiaomi MiMo Provider
-
-MiMo will be added as a first-class provider through the same provider boundary:
-
-- `MiMoProvider`
-- OpenAI-compatible request path if supported
-- Provider selector option in Chat
-- Per-run provider/model metadata in AgentRun
-- JSON mode for structured classification and artifact extraction
-- Evaluation through the existing career-agent harness
-
-After integration, MiMo will be compared with DeepSeek Flash and Mock on the same eval cases.
 
 Configure DeepSeek with:
 
@@ -578,7 +795,7 @@ The Chat page uses one composer with two visual variants:
 
 Starter chips only fill the composer draft. They do not create objects or bypass the normal `sendMessage` lifecycle.
 
-The Chat header includes a lightweight `ModelProviderSelector`. It is currently display-only for provider choice: `MockLLMProvider` is active, while OpenAI and Local providers are marked as coming soon. The app still makes no real API calls in this mode.
+The Chat header includes a lightweight `ModelProviderSelector`. `MockLLMProvider` remains the default local path, DeepSeek options can be used when configured, and OpenAI-compatible / MiMo providers are planned through the same boundary.
 
 Chat archive is a soft archive:
 
@@ -590,7 +807,7 @@ Chat archive is a soft archive:
 - Unarchive sets `ChatThread.status = active` and returns it to Recent.
 - Sending a new message to an archived thread automatically updates it back to active through the existing chat send lifecycle.
 
-The current app still uses `MockLLMProvider`; wiring a real provider is outside this UI/archive pass.
+The default local experience still works without any API key through `MockLLMProvider`; real providers are opt-in and should preserve the same trace, validation, and Memory safety boundaries.
 
 ## Memory Safety
 
@@ -636,11 +853,48 @@ codesign --force --sign - node_modules/@next/swc-darwin-x64/next-swc.darwin-x64.
 
 On Apple Silicon, replace `x64` with `arm64` if that is the installed package.
 
-## TODO
+## Roadmap
 
-- Add richer Evidence-to-Memory binding UI with searchable pickers.
-- Add Opportunity editing and status transitions.
-- Add Graph View for Memory/Evidence/Opportunity relationships.
-- Add import/export and backup snapshots.
-- Add stronger real OpenAI prompt/schema validation when API keys are configured.
-- Add unit tests around workflow scoring and rollback behavior.
+### Phase 1: Local-first MVP
+
+- [x] Chat-first career agent UI
+- [x] SQLite + Prisma data model
+- [x] Memory suggestion workflow
+- [x] Evidence and opportunity management
+- [x] Agent run trace view
+- [x] Basic evaluation harness
+
+### Phase 2: Real Provider Integration
+
+- [x] Mock provider
+- [ ] DeepSeek provider refinement
+- [ ] Xiaomi MiMo provider
+- [ ] OpenAI-compatible provider interface
+- [ ] Provider selector in UI
+- [ ] Provider metadata comparison
+
+### Phase 3: Agent Evaluation
+
+- [x] Case-driven eval design
+- [x] Sample eval report
+- [ ] MiMo benchmark run
+- [ ] DeepSeek vs MiMo comparison
+- [ ] Failure taxonomy dashboard
+- [ ] Regression test set for memory safety
+
+### Phase 4: Productization
+
+- [ ] Import resume / project history
+- [ ] JD paste-to-opportunity workflow
+- [ ] Interview stage tracker
+- [ ] Offer comparison workflow
+- [ ] Export career memory profile
+- [ ] Demo video and public technical write-up
+
+## Current Limitations
+
+- The MVP is local-first and uses SQLite rather than a multi-user hosted database.
+- External JD search is not implemented; users paste JD, recruiter, or interview text as Evidence.
+- MiMo is planned but not implemented yet.
+- Streaming and tool calling are not implemented yet.
+- The evaluation harness is case-driven and rule-scored; future work can add an LLM judge without overriding hard assertions.
