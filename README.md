@@ -1,6 +1,6 @@
 # Career Memory Agent MVP
 
-Local-first chat-first career agent with memory and structured opportunity analysis as enhancement layers, built with Next.js, TypeScript, Tailwind CSS, SQLite, Prisma, and a provider-based LLM interface.
+Local-first, chat-first career agent with memory and structured opportunity analysis as enhancement layers, built with Next.js, TypeScript, Tailwind CSS, SQLite, Prisma, and a provider-based LLM interface.
 
 ## Xiaomi MiMo Integration Plan
 
@@ -480,6 +480,19 @@ The product keeps `MockLLMProvider` as the deterministic local validation path a
 - Mock output keeps smoke/regression cases stable for local development, but it is not the main quality optimization target.
 - DeepSeek uses the OpenAI-compatible API through the official `openai` npm package.
 - DeepSeek Flash is the default semantic router and eval model. DeepSeek Pro remains a manual debugging option and is not used by default evals.
+
+### Planned Xiaomi MiMo Provider
+
+MiMo will be added as a first-class provider through the same provider boundary:
+
+- `MiMoProvider`
+- OpenAI-compatible request path if supported
+- Provider selector option in Chat
+- Per-run provider/model metadata in AgentRun
+- JSON mode for structured classification and artifact extraction
+- Evaluation through the existing career-agent harness
+
+After integration, MiMo will be compared with DeepSeek Flash and Mock on the same eval cases.
 
 Configure DeepSeek with:
 
