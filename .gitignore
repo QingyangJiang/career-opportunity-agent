@@ -11,3 +11,4 @@ evals/career-agent/report.md
 dist
 coverage
 tsconfig.tsbuildinfo
+.DS_Store
