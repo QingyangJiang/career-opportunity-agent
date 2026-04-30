@@ -1,0 +1,40 @@
+{
+  "id": "weak_jd_should_not_create_objects",
+  "title": "短 JD 线索只做初步判断，不创建对象",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "帮我分析这段 JD 是否适合我：Agent 后训练，负责 GRPO 和 Reward Model" },
+    { "user": "接下来我需要提供哪些信息？" }
+  ],
+  "expectations": {
+    "expectedActionLevel": ["answer_only", "answer_with_info_gaps", "show_structured_card"],
+    "expectedEvidenceSufficiency": ["none", "partial"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustMentionAny": ["完整 JD", "公司", "团队", "薪资", "owner", "职责占比"],
+    "mustNotMention": ["已创建 Opportunity", "Opportunity Follow-ups (22)", "生成/更新 9 条 active risks"],
+    "perTurn": [
+      {
+        "expectedActionLevel": ["answer_with_info_gaps"],
+        "expectedEvidenceSufficiency": ["partial"],
+        "shouldCreateEvidence": false,
+        "shouldCreateOpportunity": false,
+        "shouldCreateDecision": false,
+        "maxPendingActions": 0
+      },
+      {
+        "expectedActionLevel": ["answer_only"],
+        "expectedEvidenceSufficiency": ["none"],
+        "shouldCreateEvidence": false,
+        "shouldCreateOpportunity": false,
+        "shouldCreateDecision": false,
+        "maxPendingActions": 0
+      }
+    ]
+  }
+}

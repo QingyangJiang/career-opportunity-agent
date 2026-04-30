@@ -1,0 +1,240 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Memory {
+  id                    String                   @id @default(cuid())
+  type                  String
+  title                 String
+  content               String
+  tagsJson              String                   @default("[]")
+  confidence            Float                    @default(0.7)
+  userVerified          Boolean                  @default(false)
+  status                String                   @default("active")
+  sourceEvidenceIdsJson String                   @default("[]")
+  createdAt             DateTime                 @default(now())
+  updatedAt             DateTime                 @updatedAt
+  versions              MemoryVersion[]
+  matches               OpportunityMemoryMatch[]
+}
+
+model MemoryVersion {
+  id           String   @id @default(cuid())
+  memoryId     String
+  memory       Memory   @relation(fields: [memoryId], references: [id], onDelete: Cascade)
+  snapshotJson String
+  changeReason String
+  createdAt    DateTime @default(now())
+}
+
+model Evidence {
+  id        String                @id @default(cuid())
+  type      String
+  title     String
+  content   String
+  sourceUrl String?
+  createdAt DateTime              @default(now())
+  updatedAt DateTime              @updatedAt
+  links     OpportunityEvidence[]
+}
+
+model Opportunity {
+  id                   String                   @id @default(cuid())
+  type                 String
+  company              String
+  businessUnit         String?
+  roleTitle            String
+  sourceChannel        String?
+  sourceUrl            String?
+  status               String                   @default("discovered")
+  location             String?
+  salaryRange          String?
+  directionTagsJson    String                   @default("[]")
+  responsibilitiesJson String                   @default("[]")
+  requirementsJson     String                   @default("[]")
+  rawSummary           String?
+  createdAt            DateTime                 @default(now())
+  updatedAt            DateTime                 @updatedAt
+  assessments          Assessment[]
+  risks                Risk[]
+  openQuestions        OpenQuestion[]
+  decisions            Decision[]
+  evidenceLinks        OpportunityEvidence[]
+  memoryMatches        OpportunityMemoryMatch[]
+}
+
+model OpportunityEvidence {
+  id            String      @id @default(cuid())
+  opportunityId String
+  evidenceId    String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  evidence      Evidence    @relation(fields: [evidenceId], references: [id], onDelete: Cascade)
+  createdAt     DateTime    @default(now())
+
+  @@unique([opportunityId, evidenceId])
+}
+
+model OpportunityMemoryMatch {
+  id              String      @id @default(cuid())
+  opportunityId   String
+  memoryId        String?
+  requirement     String
+  memoryTitle     String?
+  strength        String
+  rationale       String
+  evidenceIdsJson String      @default("[]")
+  createdAt       DateTime    @default(now())
+  opportunity     Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  memory          Memory?     @relation(fields: [memoryId], references: [id], onDelete: SetNull)
+}
+
+model Assessment {
+  id                     String      @id @default(cuid())
+  opportunityId          String
+  opportunity            Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  overallScore           Int
+  directionMatchScore    Int
+  experienceMatchScore   Int
+  compensationMatchScore Int
+  ownerSpaceScore        Int
+  summary                String
+  strongMatchesJson      String      @default("[]")
+  weakMatchesJson        String      @default("[]")
+  createdAt              DateTime    @default(now())
+}
+
+model Risk {
+  id              String      @id @default(cuid())
+  opportunityId   String
+  opportunity     Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  title           String
+  description     String
+  severity        String
+  likelihood      String
+  mitigation      String?
+  status          String      @default("active")
+  evidenceIdsJson String      @default("[]")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @default(now()) @updatedAt
+}
+
+model OpenQuestion {
+  id            String      @id @default(cuid())
+  opportunityId String
+  opportunity   Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  question      String
+  target        String
+  priority      String
+  status        String      @default("unasked")
+  answer        String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @default(now()) @updatedAt
+}
+
+model Decision {
+  id              String      @id @default(cuid())
+  opportunityId   String
+  opportunity     Opportunity @relation(fields: [opportunityId], references: [id], onDelete: Cascade)
+  decision        String
+  confidence      String
+  rationale       String
+  evidenceIdsJson String      @default("[]")
+  createdAt       DateTime    @default(now())
+  updatedAt       DateTime    @default(now()) @updatedAt
+}
+
+model AgentRun {
+  id                String             @id @default(cuid())
+  workflowType      String
+  inputJson         String
+  triggerType       String?
+  detectedIntent    String?
+  actionPlanJson    String             @default("[]")
+  sourceMessageText String?
+  chatThreadId      String?
+  sourceMessageId   String?
+  chatThread        ChatThread?        @relation(fields: [chatThreadId], references: [id], onDelete: SetNull)
+  sourceMessage     ChatMessage?       @relation("SourceMessageAgentRuns", fields: [sourceMessageId], references: [id], onDelete: SetNull)
+  status            String             @default("running")
+  createdAt         DateTime           @default(now())
+  updatedAt         DateTime           @updatedAt
+  steps             AgentStep[]
+  suggestions       MemorySuggestion[]
+  assistantMessages ChatMessage[]      @relation("AssistantMessageAgentRun")
+}
+
+model AgentStep {
+  id           String   @id @default(cuid())
+  agentRunId   String
+  agentRun     AgentRun @relation(fields: [agentRunId], references: [id], onDelete: Cascade)
+  stepName     String
+  inputSummary String
+  outputJson   String
+  status       String
+  errorMessage String?
+  createdAt    DateTime @default(now())
+}
+
+model MemorySuggestion {
+  id                    String    @id @default(cuid())
+  agentRunId            String
+  agentRun              AgentRun  @relation(fields: [agentRunId], references: [id], onDelete: Cascade)
+  suggestedType         String
+  title                 String
+  content               String
+  tagsJson              String    @default("[]")
+  confidence            Float
+  reason                String
+  sourceEvidenceIdsJson String    @default("[]")
+  status                String    @default("pending")
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @default(now()) @updatedAt
+  handledAt             DateTime?
+}
+
+model ChatThread {
+  id            String                  @id @default(cuid())
+  title         String
+  summary       String?
+  status        String                  @default("active")
+  provider      String                  @default("mock")
+  model         String                  @default("MockLLMProvider")
+  providerLabel String?
+  thinking      String                  @default("disabled")
+  reasoningEffort String                @default("none")
+  createdAt     DateTime                @default(now())
+  updatedAt     DateTime                @updatedAt
+  lastMessageAt DateTime                @default(now())
+  messages      ChatMessage[]
+  attachments   ChatContextAttachment[]
+  agentRuns     AgentRun[]
+}
+
+model ChatMessage {
+  id              String     @id @default(cuid())
+  threadId        String
+  thread          ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  role            String
+  content         String
+  agentRunId      String?
+  agentRun        AgentRun?  @relation("AssistantMessageAgentRun", fields: [agentRunId], references: [id], onDelete: SetNull)
+  sourceAgentRuns AgentRun[] @relation("SourceMessageAgentRuns")
+  metadataJson    String?
+  createdAt       DateTime   @default(now())
+}
+
+model ChatContextAttachment {
+  id         String     @id @default(cuid())
+  threadId   String
+  thread     ChatThread @relation(fields: [threadId], references: [id], onDelete: Cascade)
+  entityType String
+  entityId   String
+  createdAt  DateTime   @default(now())
+
+  @@unique([threadId, entityType, entityId])
+}

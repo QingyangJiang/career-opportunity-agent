@@ -1,0 +1,25 @@
+{
+  "id": "weak_jd_still_not_memory",
+  "title": "弱 JD 线索不应误判为记忆更新",
+  "provider": "deepseek-flash",
+  "turns": [
+    {
+      "user": "帮我分析这个 JD 是否适合我：Agent 后训练，负责 GRPO 和 Reward Model。"
+    }
+  ],
+  "expectations": {
+    "expectedIntent": ["analyze_evidence_candidate", "analyze_evidence", "ordinary_chat", "ask_question"],
+    "expectedActionLevel": ["answer_with_info_gaps", "answer_only"],
+    "expectedEvidenceSufficiency": ["weak", "partial", "none"],
+    "expectedMemorySignalStrength": ["none", "low"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustMentionAny": ["完整 JD", "公司", "团队", "薪资", "owner", "GRPO", "Reward Model"],
+    "mustNotMention": ["保存为记忆", "MemorySuggestion", "已创建 Opportunity", "已写入长期 Memory"]
+  }
+}

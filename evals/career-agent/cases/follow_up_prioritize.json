@@ -1,0 +1,24 @@
+{
+  "id": "follow_up_prioritize",
+  "title": "按优先级排一下承接上一轮机会对比",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "同花顺和淘天哪个更适合我？" },
+    { "user": "按优先级排一下。" }
+  ],
+  "expectations": {
+    "expectedIntent": ["follow_up"],
+    "expectedFollowUpType": ["compare_with_previous"],
+    "expectedActionLevel": ["answer_only"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustUseConversationContext": true,
+    "mustMentionAny": ["优先", "排序", "同花顺", "淘天"],
+    "mustNotMention": ["我在", "你可以随便说", "请重新描述", "我不清楚你指什么"]
+  }
+}

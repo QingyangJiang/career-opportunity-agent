@@ -1,0 +1,26 @@
+{
+  "id": "explicit_preference_answer_plus_memory",
+  "title": "显式偏好先自然回答，再附加记忆候选",
+  "provider": "deepseek-flash",
+  "turns": [
+    {
+      "user": "以后我优先看 Agentic RL、后训练、Reward Model、Verifier 这些方向，纯预训练岗位暂时不优先考虑。"
+    }
+  ],
+  "expectations": {
+    "expectedIntent": ["update_memory"],
+    "expectedActionLevel": ["suggest_memory_candidate"],
+    "expectedMemorySignalStrength": ["high"],
+    "expectedArtifactTypes": ["memory_suggestion"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "shouldShowInfoGaps": false,
+    "minMemorySuggestions": 1,
+    "maxMemorySuggestions": 3,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "mustMentionAny": ["优先", "Agentic RL", "后训练", "Reward Model", "Verifier", "纯预训练"],
+    "mustNotMention": ["公司业务线", "岗位职责占比", "任职要求", "薪资/职级", "owner 空间", "正式 Opportunity"]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "needs_external_source",
+  "title": "外部 JD 搜索请求不创建对象",
+  "provider": "deepseek-flash",
+  "turns": [{ "user": "帮我找下豆包的 JD。" }],
+  "expectations": {
+    "expectedActionLevel": ["answer_with_info_gaps"],
+    "expectedEvidenceSufficiency": ["none"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "mustMentionAny": ["不支持", "粘贴", "JD", "外部"],
+    "mustNotMention": ["已创建 Opportunity"]
+  }
+}

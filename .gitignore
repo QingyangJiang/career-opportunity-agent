@@ -1,0 +1,13 @@
+node_modules
+.next
+.local-node
+.env
+.env.local
+prisma/dev.db
+prisma/dev.db-journal
+evals/career-agent/history/*.db
+evals/career-agent/report.json
+evals/career-agent/report.md
+dist
+coverage
+tsconfig.tsbuildinfo

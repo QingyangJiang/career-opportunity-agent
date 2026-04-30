@@ -1,0 +1,19 @@
+{
+  "id": "explicit_memory_update",
+  "title": "明确长期偏好生成候选记忆",
+  "provider": "deepseek-flash",
+  "turns": [{ "user": "以后我优先看 Agentic RL，纯预训练暂不考虑。" }],
+  "expectations": {
+    "expectedActionLevel": ["suggest_memory_candidate"],
+    "expectedEvidenceSufficiency": ["none"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "minMemorySuggestions": 1,
+    "maxMemorySuggestions": 2,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "mustMentionAny": ["保存", "记忆", "偏好", "不会直接"],
+    "mustNotMention": ["已写入长期 Memory", "Risk"]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "id": "follow_up_direction_constraint",
+  "title": "教育方向限制承接上一轮 Agent 岗位讨论",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "我应该看哪些 Agent 岗位？" },
+    { "user": "如果限定在教育方向呢？" }
+  ],
+  "expectations": {
+    "expectedIntent": ["follow_up"],
+    "expectedFollowUpType": ["unknown", "expand_previous_answer", "ask_about_mentioned_entity"],
+    "expectedActionLevel": ["answer_only"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustUseConversationContext": true,
+    "mustMentionAny": ["教育", "K12", "Agent", "评测", "Reward"],
+    "mustNotMention": ["我在", "你可以随便说", "请重新描述", "我不清楚你指什么"]
+  }
+}

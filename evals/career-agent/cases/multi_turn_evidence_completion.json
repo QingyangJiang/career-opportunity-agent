@@ -1,0 +1,29 @@
+{
+  "id": "multi_turn_evidence_completion",
+  "title": "多轮补齐证据后才允许创建对象",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "帮我分析一个岗位：Agent 后训练，GRPO。" },
+    { "user": "公司是豆包，团队做教育 Agent，薪资 70-90k。" },
+    {
+      "user": "完整 JD 是：岗位职责：负责教育 Agent 场景下的 GRPO、Reward Model、评测体系和数据闭环；任职要求：熟悉 PPO/GRPO/DPO，有线上业务优化经验。"
+    }
+  ],
+  "expectations": {
+    "perTurn": [
+      { "shouldCreateOpportunity": false },
+      { "shouldCreateOpportunity": false },
+      { "shouldCreateOpportunity": true }
+    ],
+    "expectedActionLevel": ["create_structured_objects"],
+    "expectedEvidenceSufficiency": ["sufficient"],
+    "shouldCreateEvidence": true,
+    "shouldCreateOpportunity": true,
+    "shouldCreateDecision": true,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 3,
+    "maxOpenQuestions": 5,
+    "mustMentionAny": ["教育 Agent", "GRPO", "Reward", "数据闭环"],
+    "mustNotMention": ["生成/更新 9 条 active risks"]
+  }
+}

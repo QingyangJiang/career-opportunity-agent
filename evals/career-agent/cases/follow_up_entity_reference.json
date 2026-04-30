@@ -1,0 +1,24 @@
+{
+  "id": "follow_up_entity_reference",
+  "title": "它指代上一轮提到的淘天岗位",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "帮我分析淘天这个岗位。" },
+    { "user": "那它最大的风险是什么？" }
+  ],
+  "expectations": {
+    "expectedIntent": ["follow_up"],
+    "expectedFollowUpType": ["ask_about_mentioned_entity"],
+    "expectedActionLevel": ["answer_only"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustUseConversationContext": true,
+    "mustMentionAny": ["淘天", "风险", "职责", "owner", "团队"],
+    "mustNotMention": ["我在", "你可以随便说", "请重新描述", "我不清楚你指什么"]
+  }
+}

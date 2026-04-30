@@ -1,0 +1,23 @@
+{
+  "id": "interview_after_review",
+  "title": "面试复盘给补强建议，不乱写长期记忆",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "刚才一面问了我 GRPO 和 DPO 的区别，还追问了项目里 reward 怎么设计。" }
+  ],
+  "expectations": {
+    "expectedIntent": ["interview_review"],
+    "expectedActionLevel": ["show_structured_card", "answer_only", "propose_draft_object"],
+    "expectedEvidenceSufficiency": ["none"],
+    "expectedMemorySignalStrength": ["none", "low", "medium"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustMentionAny": ["GRPO", "DPO", "reward", "复盘", "项目"],
+    "mustNotMention": ["已写入长期 Memory", "已创建 Opportunity", "请填写表单"]
+  }
+}

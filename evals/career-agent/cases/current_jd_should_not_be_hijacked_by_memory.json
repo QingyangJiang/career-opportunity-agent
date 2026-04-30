@@ -1,0 +1,19 @@
+{
+  "id": "current_jd_should_not_be_hijacked_by_memory",
+  "title": "当前完整 JD 必须锚定当前输入，不被长期记忆或历史面试主题带跑",
+  "provider": "deepseek-flash",
+  "turns": [
+    {
+      "user": "分析下这个：\n一、岗位名称\n电商运营专员\n二、所属部门\n运营部\n三、工作地点\n杭州\n四、薪资范围\n6k-10k/月\n五、岗位职责\n负责公司电商平台日常运营，包括商品上架、标题优化、详情页维护、库存管理；\n策划平台活动、促销玩法，跟进活动报名、落地执行与数据复盘；\n监控店铺流量、转化率、销售额等核心数据，定期输出运营报表；\n对接客服、仓储、设计团队，保障订单履约、售后问题高效处理；\n调研竞品动态与行业趋势，优化店铺运营策略，提升店铺排名与 GMV；\n维护店铺评价、问答，提升店铺口碑与 DSR 评分。\n六、任职要求\n大专及以上学历，1年以内电商运营相关经验，优秀应届生可接受；\n熟悉电商基础运营逻辑，了解平台规则与活动玩法；\n具备基础数据分析能力，熟练使用 Excel，能看懂基础运营数据；\n做事细心有耐心，执行力强，有良好的沟通协作能力；\n积极主动，抗压能力强，有电商行业从业经验优先。"
+    }
+  ],
+  "expectations": {
+    "expectedCurrentInputType": ["job_description"],
+    "expectedConversationIntent": ["analyze_job", "analyze_evidence"],
+    "shouldCreateEvidence": true,
+    "shouldCreateOpportunity": true,
+    "maxMemorySuggestions": 0,
+    "mustMentionAny": ["电商运营", "运营专员", "商品上架", "GMV", "DSR", "6k-10k", "不匹配", "不建议", "不优先"],
+    "mustNotMention": ["GRPO vs DPO", "reward 设计", "一面", "面试官", "Interview Prep", "后训练面试重点"]
+  }
+}

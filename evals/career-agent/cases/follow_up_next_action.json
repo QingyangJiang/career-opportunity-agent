@@ -1,0 +1,24 @@
+{
+  "id": "follow_up_next_action",
+  "title": "下一步承接上一轮弱 JD 初步分析",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "帮我分析这段 JD 是否适合我：Agent 后训练，负责 GRPO 和 Reward Model。" },
+    { "user": "那我下一步该干嘛？" }
+  ],
+  "expectations": {
+    "expectedIntent": ["follow_up"],
+    "expectedFollowUpType": ["ask_for_next_steps", "ask_about_mentioned_entity"],
+    "expectedActionLevel": ["answer_only"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustUseConversationContext": true,
+    "mustMentionAny": ["完整 JD", "公司", "团队", "薪资", "owner", "职责占比", "GRPO"],
+    "mustNotMention": ["我在", "你可以随便说", "请重新描述", "我不清楚你指什么", "已创建 Opportunity"]
+  }
+}

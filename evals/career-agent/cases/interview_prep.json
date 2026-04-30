@@ -1,0 +1,18 @@
+{
+  "id": "interview_prep",
+  "title": "面试准备只给建议和轻量卡片",
+  "provider": "deepseek-flash",
+  "turns": [{ "user": "帮我准备淘天交叉面。" }],
+  "expectations": {
+    "expectedActionLevel": ["show_structured_card", "answer_only"],
+    "expectedEvidenceSufficiency": ["none"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "mustMentionAny": ["交叉面", "项目", "反问", "准备"],
+    "mustNotMention": ["已创建 Evidence", "MemorySuggestion"]
+  }
+}

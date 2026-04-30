@@ -1,0 +1,52 @@
+{
+  "id": "preference_update_after_normal_chat",
+  "title": "普通聊天后显式偏好仍识别为记忆更新",
+  "provider": "deepseek-flash",
+  "turns": [
+    {
+      "user": "最近投递和面试好多，有点焦虑，感觉每天都在准备不同公司的面试。"
+    },
+    {
+      "user": "以后我优先看 Agentic RL、后训练、Reward Model、Verifier 这些方向，纯预训练岗位暂时不优先考虑。"
+    }
+  ],
+  "expectations": {
+    "expectedIntent": ["update_memory"],
+    "expectedActionLevel": ["suggest_memory_candidate"],
+    "expectedMemorySignalStrength": ["high"],
+    "expectedEvidenceSufficiency": ["none"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "shouldShowInfoGaps": false,
+    "minMemorySuggestions": 1,
+    "maxMemorySuggestions": 3,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 3,
+    "mustMentionAny": ["优先", "Agentic RL", "后训练", "Reward Model", "Verifier", "纯预训练"],
+    "mustNotMention": ["公司业务线", "岗位职责占比", "任职要求", "薪资/职级", "owner 空间", "正式 Opportunity"],
+    "perTurn": [
+      {
+        "expectedIntent": ["ordinary_chat", "ask_question"],
+        "expectedActionLevel": ["answer_only"],
+        "shouldCreateEvidence": false,
+        "shouldCreateOpportunity": false,
+        "shouldCreateDecision": false,
+        "maxMemorySuggestions": 0,
+        "maxPendingActions": 0
+      },
+      {
+        "expectedIntent": ["update_memory"],
+        "expectedActionLevel": ["suggest_memory_candidate"],
+        "expectedMemorySignalStrength": ["high"],
+        "shouldCreateEvidence": false,
+        "shouldCreateOpportunity": false,
+        "shouldCreateDecision": false,
+        "shouldShowInfoGaps": false,
+        "minMemorySuggestions": 1,
+        "maxMemorySuggestions": 3
+      }
+    ]
+  }
+}

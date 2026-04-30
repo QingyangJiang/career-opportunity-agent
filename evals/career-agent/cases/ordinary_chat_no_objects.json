@@ -1,0 +1,19 @@
+{
+  "id": "ordinary_chat_no_objects",
+  "title": "普通聊天不创建对象",
+  "provider": "deepseek-flash",
+  "turns": [{ "user": "今天感觉有点焦虑，面试好多。" }],
+  "expectations": {
+    "expectedActionLevel": ["answer_only"],
+    "expectedEvidenceSufficiency": ["none"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustMentionAny": ["焦虑", "先", "面试", "准备", "拆"],
+    "mustNotMention": ["已创建 Opportunity", "生成/更新", "引用来源"]
+  }
+}

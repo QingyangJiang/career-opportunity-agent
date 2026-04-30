@@ -1,0 +1,23 @@
+{
+  "id": "resume_project_rewrite",
+  "title": "简历项目表达自然改写，不创建机会",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "帮我把高英评批项目改成更适合 Agent 后训练岗位的说法。" }
+  ],
+  "expectations": {
+    "expectedIntent": ["rewrite_resume_project", "ask_question"],
+    "expectedActionLevel": ["answer_only"],
+    "expectedEvidenceSufficiency": ["none"],
+    "expectedMemorySignalStrength": ["none", "low"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustMentionAny": ["Agent 后训练", "Reward", "Verifier", "评测", "项目"],
+    "mustNotMention": ["已创建 Opportunity", "已写入长期 Memory", "请填写表单"]
+  }
+}

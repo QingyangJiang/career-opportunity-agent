@@ -1,0 +1,18 @@
+{
+  "id": "temporary_thought_not_memory",
+  "title": "临时想法不进入长期记忆",
+  "provider": "deepseek-flash",
+  "turns": [{ "user": "今天突然觉得游戏行业也挺有意思。" }],
+  "expectations": {
+    "expectedActionLevel": ["answer_only"],
+    "expectedEvidenceSufficiency": ["none"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "mustMentionAny": ["可以", "聊聊", "兴趣", "方向"],
+    "mustNotMention": ["保存为记忆", "已创建"]
+  }
+}

@@ -1,0 +1,18 @@
+{
+  "id": "markdown_and_trace",
+  "title": "Markdown 和 Agent trace 正常",
+  "provider": "deepseek-flash",
+  "turns": [{ "user": "用表格帮我对比同花顺和淘天，并给我下一步行动。" }],
+  "expectations": {
+    "expectedActionLevel": ["show_structured_card", "answer_only"],
+    "expectedEvidenceSufficiency": ["none", "partial"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "mustMentionAny": ["|", "同花顺", "淘天", "下一步"],
+    "mustNotMention": ["chain-of-thought", "reasoning_content"]
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "id": "interview_review_as_note_not_memory",
+  "title": "面试复盘作为 note sidecar，不生成长期记忆",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "刚才一面问了我 GRPO 和 DPO 的区别，还追问 reward 怎么设计。" }
+  ],
+  "expectations": {
+    "expectedIntent": ["interview_review"],
+    "expectedArtifactTypes": ["interview_note"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustMentionAny": ["GRPO", "DPO", "reward", "复盘", "项目"],
+    "mustNotMention": ["已写入长期 Memory", "MemorySuggestion", "已创建 Opportunity"]
+  }
+}

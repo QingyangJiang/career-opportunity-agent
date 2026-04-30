@@ -1,0 +1,22 @@
+{
+  "id": "complete_jd_can_create_objects",
+  "title": "完整 JD 可以创建结构化对象",
+  "provider": "deepseek-flash",
+  "turns": [
+    {
+      "user": "岗位职责：负责 Agent 场景下的 GRPO、RLHF、Reward Model 和 Verifier；构建评测和数据闭环；团队负责教育场景 Agent 后训练；薪资 70k-90k，15薪；要求熟悉 PPO/GRPO/DPO。"
+    }
+  ],
+  "expectations": {
+    "expectedActionLevel": ["create_structured_objects"],
+    "expectedEvidenceSufficiency": ["sufficient"],
+    "shouldCreateEvidence": true,
+    "shouldCreateOpportunity": true,
+    "shouldCreateDecision": true,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 3,
+    "maxOpenQuestions": 5,
+    "mustMentionAny": ["Agent", "GRPO", "Reward", "薪资", "团队"],
+    "mustNotMention": ["直接写入 Memory", "生成/更新 9 条 active risks"]
+  }
+}

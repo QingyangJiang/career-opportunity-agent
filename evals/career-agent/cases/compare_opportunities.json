@@ -1,0 +1,18 @@
+{
+  "id": "compare_opportunities",
+  "title": "机会对比不乱创建新机会",
+  "provider": "deepseek-flash",
+  "turns": [{ "user": "同花顺和淘天哪个更适合我？" }],
+  "expectations": {
+    "expectedActionLevel": ["show_structured_card", "answer_only"],
+    "expectedEvidenceSufficiency": ["none", "partial"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "mustMentionAny": ["同花顺", "淘天", "更适合", "对比"],
+    "mustNotMention": ["已创建 Opportunity"]
+  }
+}

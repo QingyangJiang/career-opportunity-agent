@@ -1,0 +1,24 @@
+{
+  "id": "follow_up_more_companies",
+  "title": "除此之外承接上一轮推荐公司",
+  "provider": "deepseek-flash",
+  "turns": [
+    { "user": "我应该投递什么公司？" },
+    { "user": "除此之外呢？" }
+  ],
+  "expectations": {
+    "expectedIntent": ["follow_up"],
+    "expectedFollowUpType": ["ask_for_more_options", "expand_previous_answer"],
+    "expectedActionLevel": ["answer_only"],
+    "shouldCreateEvidence": false,
+    "shouldCreateOpportunity": false,
+    "shouldCreateDecision": false,
+    "maxMemorySuggestions": 0,
+    "maxRisks": 0,
+    "maxOpenQuestions": 0,
+    "maxPendingActions": 0,
+    "mustUseConversationContext": true,
+    "mustMentionAny": ["除了刚才", "备选", "公司", "方向", "投递"],
+    "mustNotMention": ["我在", "你可以随便说", "请重新描述", "我不清楚你指什么"]
+  }
+}
