@@ -2,6 +2,23 @@
 
 Local-first chat-first career agent with memory and structured opportunity analysis as enhancement layers, built with Next.js, TypeScript, Tailwind CSS, SQLite, Prisma, and a provider-based LLM interface.
 
+## Xiaomi MiMo Integration Plan
+
+This project is applying for the Xiaomi MiMo Orbit Creator Token Program.
+
+Career Memory Agent plans to integrate Xiaomi MiMo API as a core reasoning provider for:
+
+- Chinese long-context career conversations
+- JD structured extraction
+- Opportunity assessment
+- Interview preparation
+- Long-term memory summarization
+- Agent router classification
+- Structured JSON generation
+- Evaluation and benchmark comparison
+
+MiMo will be compared with existing providers such as Mock, DeepSeek, and OpenAI-compatible models. The goal is to evaluate MiMo's performance in a real-world Chinese Agent workflow, especially for chat-first user interaction, memory safety, opportunity analysis, and structured action planning.
+
 ## Features
 
 - Home Dashboard: stats, Pending Review Summary, recent conversations, recent runs, recent opportunities, provider/safety cards, and a Quick Start input that starts Chat execution in one click.
@@ -12,6 +29,24 @@ Local-first chat-first career agent with memory and structured opportunity analy
 - Agent Runs: full router/workflow trace with all steps, generated artifacts, chat source links, and pending MemorySuggestions.
 - MemorySuggestions: Agent never writes long-term memory automatically; users must Save, Edit & Save, or Ignore suggestions.
 - LLM providers: `MockLLMProvider` is default and offline; `OpenAIProvider` is reserved server-side and falls back safely when `OPENAI_API_KEY` is absent.
+
+## Screenshots
+
+### Chat-first Career Agent
+
+![Chat Agent](docs/assets/chat-agent.png)
+
+### Opportunity Analysis
+
+![Opportunity Analysis](docs/assets/opportunity-analysis.png)
+
+### Memory Suggestions
+
+![Memory Suggestions](docs/assets/memory-suggestions.png)
+
+### Agent Run Trace
+
+![Agent Run Trace](docs/assets/agent-run-trace.png)
 
 ## Quick Start
 
@@ -31,6 +66,16 @@ DATABASE_URL="file:./dev.db"
 OPENAI_API_KEY=""
 OPENAI_MODEL="gpt-4.1-mini"
 ```
+
+### Xiaomi MiMo
+
+```bash
+MIMO_API_KEY=""
+MIMO_BASE_URL=""
+MIMO_DEFAULT_MODEL=""
+```
+
+MiMo support is planned through the existing provider interface. The same AgentRun trace, JSON validation, memory safety, and evaluation harness will be reused for MiMo.
 
 No API key is required for the MVP. With no `OPENAI_API_KEY`, the app uses the deterministic local `MockLLMProvider`.
 
